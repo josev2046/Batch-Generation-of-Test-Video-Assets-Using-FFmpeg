@@ -1,4 +1,6 @@
 # Batch Generation of Test Video Assets Using FFmpeg
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15251898.svg)](https://doi.org/10.5281/zenodo.15251898)
+
 
 * For users requiring multiple test video assets, perhaps for integration within an Online Video Platform (OVP), this document outlines an efficient method to generate a series of visually distinct videos using a single FFmpeg command.
 
