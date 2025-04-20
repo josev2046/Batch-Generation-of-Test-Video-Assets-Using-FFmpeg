@@ -1,0 +1,52 @@
+@startuml
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 10
+skinparam participantFontName Helvetica
+skinparam participantFontSize 14
+
+participant "Bash Script" as script
+participant "ffmpeg" as ffmpeg
+participant "openssl" as openssl
+
+script -> script: **Iterative Process (1 to 12)**
+activate script
+loop 12 times
+  script -> openssl: **Generate Random Hexadecimal Colour Code**
+  activate openssl
+  openssl --> script: Hexadecimal Colour Value
+  deactivate openssl
+  script -> ffmpeg: **Execute FFmpeg with Parameters:** \n - Input: Colour Source (lavfi) \n - Video Dimensions & Duration \n - Text Overlays (simple countdown) \n - Encoding Parameters
+  activate ffmpeg
+  ffmpeg -> ffmpeg: Generate Solid Colour Background
+  ffmpeg -> ffmpeg: Apply Static Text Overlay ("myVideo")
+  ffmpeg -> ffmpeg: Apply Dynamic Countdown Timer Overlay (seconds)
+  ffmpeg -> ffmpeg: Encode Video Stream (libx264)
+  ffmpeg --> script: Output Video File (myVideo_i.mp4)
+  deactivate ffmpeg
+end loop
+deactivate script
+
+@enduml
+
+--
+
+@startuml
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 10
+skinparam participantFontName Helvetica
+skinparam participantFontSize 14
+
+participant "Bash Command" as command
+participant "ffmpeg" as ffmpeg
+
+command -> ffmpeg: **ffmpeg -f lavfi ...** \n - Input: Test Source (lavfi) \n - Video Dimensions & Duration \n - Text Overlays (MM:SS countdown) \n - Pixel Format \n - Encoding Parameters \n - Output Duration & Filename
+activate ffmpeg
+ffmpeg -> ffmpeg: Generate Colour Bars and Test Pattern (lavfi)
+ffmpeg -> ffmpeg: Apply Static Text Overlay ("myVideo")
+ffmpeg -> ffmpeg: Apply Dynamic Countdown Timer Overlay (MM:SS)
+ffmpeg -> ffmpeg: Set Pixel Format (yuv420p)
+ffmpeg -> ffmpeg: Encode Video Stream (libx264)
+ffmpeg --> command: Output Video File (myVideo.mp4)
+deactivate ffmpeg
+
+@enduml
