@@ -1,0 +1,7 @@
+for i in $(seq 1 12); do ffmpeg -f lavfi -i "color=c=0x$(openssl rand -hex 3):s=1280x720:d=180" -vf "drawtext=fontfile=/path/to/font.ttf:text='myVideo':fontcolor=white:fontsize=72:x=(w-text_w)/2:y=(h-text_h)/2,drawtext=fontfile=/path/to/font.ttf:text='%{eif\:180-t\:d\:2}':fontcolor=white:fontsize=144:x=(w-text_w)/2:y=(h-text_h)/2+100" -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 128k "myVideo_$i.mp4"; done
+
+--
+
+ffmpeg -f lavfi -i testsrc=duration=180:size=1920x1080:rate=30 \
+-vf "drawtext=fontfile=/path/to/font.ttf:text='myVideo':fontcolor=black:fontsize=100:x=(w-text_w)/2:y=(h-text_h)/2-50,drawtext=fontfile=/path/to/font.ttf:text='%{eif\\:trunc((180-t)/60)\\:d}\\:%{eif\\:mod(180-t\\,60)\\:d\\:2}':fontcolor=black:fontsize=72:x=(w-text_w)/2:y=(h-text_h)/2+50,format=yuv420p" \
+-c:v libx264 -crf 18 -preset veryfast -t 180 myVideo.mp4
