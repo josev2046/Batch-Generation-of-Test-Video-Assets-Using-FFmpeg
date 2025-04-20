@@ -5,7 +5,19 @@
 * For users requiring multiple test video assets, perhaps for integration within an Online Video Platform (OVP), this document outlines an efficient method to generate a series of visually distinct videos using a single FFmpeg command.
 
 ~~~```bash
-for i in <span class="math-inline">\(seq 1 12\); do ffmpeg \-f lavfi \-i "color\=c\=0x</span>(openssl rand -hex 3):s=1280x720:d=180" -vf "drawtext=fontfile=/path/to/font.ttf:text='myVideo':fontcolor=white:fontsize=72:x=(w-text_w)/2:y=(h-text_h)/2,drawtext=fontfile=/path/to/font.ttf:text='%{eif\:180-t\:d\:2}':fontcolor=white:fontsize=144:x=(w-text_w)/2:y=(h-text_h)/2+100" -c:v libx264 -crf 23 -preset medium -c:a aac -b:a 128k "myVideo_$i.mp4"; done
+# Loop to generate 12 test videos
+for i in $(seq 1 12); do
+  # FFmpeg command for each video
+  ffmpeg -f lavfi \
+         -i "color=c=0x$(openssl rand -hex 3):s=1280x720:d=180" \
+         -vf "drawtext=fontfile=/path/to/font.ttf:text='myVideo':fontcolor=white:fontsize=72:x=(w-text_w)/2:y=(h-text_h)/2,drawtext=fontfile=/path/to/font.ttf:text='%{eif\:180-t\:d\:2}':fontcolor=white:fontsize=144:x=(w-text_w)/2:y=(h-text_h)/2+100" \
+         -c:v libx264 \
+         -crf 23 \
+         -preset medium \
+         -c:a aac \
+         -b:a 128k \
+         "myVideo_$i.mp4";
+done
 ~~~
 
 The underlying logic of this script, detailed in the sequence diagram in Figure 1, involves iteratively creating videos with random background colours and a simple countdown.
